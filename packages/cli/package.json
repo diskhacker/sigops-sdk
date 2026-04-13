@@ -3,13 +3,22 @@
   "version": "0.1.0",
   "description": "CLI for SigOps SDK - init, test, validate, publish tools and templates",
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
-    "sigops": "./src/index.ts"
+    "sigops": "./dist/index.js"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --outDir dist --declaration",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit"
