@@ -197,6 +197,144 @@ pnpm changeset version
 pnpm publish -r --access public
 ```
 
+---
+
+## HARD RULE #7: ESM + CJS Dual Build (MANDATORY)
+
+Every package MUST ship both ESM and CJS formats using `tsup`:
+
+```json
+// Each packages/*/package.json:
+{
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "vitest": "^3.0.0"
+  }
+}
+```
+
+**Verify dual build works:**
+```bash
+# After build, both files must exist:
+ls packages/tool-sdk/dist/index.js    # ESM
+ls packages/tool-sdk/dist/index.cjs   # CJS
+ls packages/tool-sdk/dist/index.d.ts  # Types
+
+# Test CJS import:
+node -e "const sdk = require('./packages/tool-sdk/dist/index.cjs'); console.log(Object.keys(sdk))"
+
+# Test ESM import:
+node --input-type=module -e "import { defineTool } from './packages/tool-sdk/dist/index.js'; console.log(typeof defineTool)"
+```
+
+---
+
+## Examples (6 Working Projects — MUST CREATE)
+
+Each example is a complete, runnable project that demonstrates an SDK feature:
+
+### examples/tool-http-health-check/
+```
+├── package.json        { "dependencies": { "@sigops/tool-sdk": "workspace:*" } }
+├── sigops.config.json  { "name": "example.http-health-check", "type": "tool" }
+├── src/index.ts        defineTool({ name, input, output, execute })
+├── test/index.test.ts  Test with mockContext
+└── README.md           What it does, how to use
+```
+
+### examples/tool-db-backup/
+```
+├── src/index.ts        Backup PostgreSQL to S3 (uses ctx.secrets for credentials)
+├── test/index.test.ts
+└── README.md
+```
+
+### examples/tool-slack-notify/
+```
+├── src/index.ts        Send Slack message via webhook (uses ctx.secrets)
+├── test/index.test.ts
+└── README.md
+```
+
+### examples/template-cpu-fix/
+```
+├── package.json        { "dependencies": { "@sigops/template-sdk": "workspace:*" } }
+├── sigops.config.json  { "name": "example.cpu-fix", "type": "template" }
+├── src/index.ts        defineTemplate({ parameters, render })
+├── test/index.test.ts  Test with multiple parameter sets
+└── README.md
+```
+
+### examples/template-disk-cleanup/
+```
+├── src/index.ts        Template for disk space alerts → cleanup → verify
+├── test/index.test.ts
+└── README.md
+```
+
+### examples/plugin-custom-metric/
+```
+├── package.json        { "dependencies": { "@sigops/plugin-sdk": "workspace:*" } }
+├── sigops.config.json  { "name": "example.custom-metric", "type": "plugin" }
+├── src/index.ts        definePlugin({ hooks: { AFTER_STEP: emitMetric } })
+├── test/index.test.ts
+└── README.md
+```
+
+Every example MUST:
+- Build successfully with `pnpm build`
+- Pass tests with `pnpm test`
+- Pass validation with `sigops validate`
+- Be referenced in the root README.md
+
+---
+
+## Documentation (6 Markdown Files — MUST CREATE)
+
+### docs/getting-started.md
+Content: Install CLI → scaffold tool → edit → test → validate → publish. 5-minute tutorial.
+Include: code blocks for every step, expected output, troubleshooting.
+
+### docs/tool-reference.md
+Content: Full API reference for @sigops/tool-sdk.
+Include: defineTool() signature, ToolDefinition interface, ToolContext (every property explained), InputSchema/OutputSchema patterns, TestHarness API, mockContext() API, error handling, timeout behavior, retry policy, rollback pattern.
+
+### docs/template-guide.md
+Content: Template development from scratch.
+Include: defineTemplate() signature, ParameterSchema → UI form mapping, render() function patterns, template composition, playbook-to-template conversion, testing with multiple parameter sets, publishing templates.
+
+### docs/sel-reference.md
+Content: SEL language specification.
+Include: Signal matching syntax, step definitions, conditions (when/otherwise), retry/rollback, variables, parallel execution, comments, complete grammar (EBNF), example .sel files for common patterns.
+
+### docs/plugin-guide.md
+Content: Plugin development guide.
+Include: definePlugin() signature, HookPoint enum (all 8 hooks with when they fire), UIExtensionPoint locations, PluginContext API, plugin config access, plugin lifecycle, testing plugins in isolation.
+
+### docs/publishing.md
+Content: How to publish to SigOps Marketplace.
+Include: sigops.config.json format, validation pipeline (10 checks), review process (private/public free/public paid), pricing models (5 types), revenue share (75/25), creator dashboard features, version management, unpublishing.
+
+---
+
 ## HARD RULES
 
 1. NO database, NO server, NO Hono — this is a pure NPM package repo
