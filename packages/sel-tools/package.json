@@ -1,0 +1,16 @@
+{
+  "name": "@sigops/sel-tools",
+  "version": "0.1.0",
+  "description": "SEL parser, linter, formatter, and LSP for SigOps Expression Language",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": ["sigops", "sel", "parser", "linter"],
+  "license": "MIT"
+}
