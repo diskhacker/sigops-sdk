@@ -1,0 +1,22 @@
+{
+  "name": "@sigops-examples/hello-vscode",
+  "version": "0.1.0",
+  "description": "Installation notes and smoke test for the @sigops/vscode-ext extension",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist --declaration",
+    "test": "vitest run",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sigops/vscode-ext": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "license": "MIT"
+}

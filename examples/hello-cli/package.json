@@ -1,0 +1,22 @@
+{
+  "name": "@sigops-examples/hello-cli",
+  "version": "0.1.0",
+  "description": "Example demonstrating programmatic use of @sigops/cli to scaffold a workflow",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist --declaration",
+    "test": "vitest run",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sigops/cli": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "license": "MIT"
+}
