@@ -1,0 +1,22 @@
+{
+  "name": "@sigops-examples/hello-sel",
+  "version": "0.1.0",
+  "description": "Minimal example showing how to parse and lint a SEL program with @sigops/sel-tools",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist --declaration",
+    "test": "vitest run",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sigops/sel-tools": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "license": "MIT"
+}

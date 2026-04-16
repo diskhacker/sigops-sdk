@@ -21,6 +21,84 @@ importers:
         specifier: ^3.0.0
         version: 3.2.4
 
+  examples/hello-cli:
+    dependencies:
+      '@sigops/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4
+
+  examples/hello-plugin:
+    dependencies:
+      '@sigops/plugin-sdk':
+        specifier: workspace:*
+        version: link:../../packages/plugin-sdk
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4
+
+  examples/hello-sel:
+    dependencies:
+      '@sigops/sel-tools':
+        specifier: workspace:*
+        version: link:../../packages/sel-tools
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4
+
+  examples/hello-template:
+    dependencies:
+      '@sigops/template-sdk':
+        specifier: workspace:*
+        version: link:../../packages/template-sdk
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4
+
+  examples/hello-tool:
+    dependencies:
+      '@sigops/tool-sdk':
+        specifier: workspace:*
+        version: link:../../packages/tool-sdk
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4
+
+  examples/hello-vscode:
+    dependencies:
+      '@sigops/vscode-ext':
+        specifier: workspace:*
+        version: link:../../packages/vscode-ext
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4
+
   packages/cli: {}
 
   packages/plugin-sdk:
