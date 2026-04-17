@@ -199,51 +199,42 @@ pnpm publish -r --access public
 
 ---
 
-## HARD RULE #7: ESM + CJS Dual Build (MANDATORY)
+## HARD RULE #7: ESM-Only Build via tsc (CURRENT REALITY)
 
-Every package MUST ship both ESM and CJS formats using `tsup`:
+Every package ships **ESM-only** using `tsc` (not tsup, no CJS format). The `require` condition is not present in current package exports.
 
 ```json
-// Each packages/*/package.json:
+// Each packages/*/package.json (current):
 {
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     }
   },
   "files": ["dist"],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsc",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
-  },
-  "devDependencies": {
-    "tsup": "^8.0.0",
-    "vitest": "^3.0.0"
   }
 }
 ```
 
-**Verify dual build works:**
+**Verify build:**
 ```bash
-# After build, both files must exist:
+# After build, ESM file and types must exist:
 ls packages/tool-sdk/dist/index.js    # ESM
-ls packages/tool-sdk/dist/index.cjs   # CJS
 ls packages/tool-sdk/dist/index.d.ts  # Types
-
-# Test CJS import:
-node -e "const sdk = require('./packages/tool-sdk/dist/index.cjs'); console.log(Object.keys(sdk))"
 
 # Test ESM import:
 node --input-type=module -e "import { defineTool } from './packages/tool-sdk/dist/index.js'; console.log(typeof defineTool)"
 ```
+
+CJS dual-build (tsup) is aspirational — add it in v0.2.0 if consumer demand requires it.
 
 ---
 
@@ -343,5 +334,5 @@ Include: sigops.config.json format, validation pipeline (10 checks), review proc
 4. Re-export Zod as `z` from tool-sdk and template-sdk (users don't install zod separately)
 5. SEL parser must produce IDENTICAL AST as sigops core parser (shared code, extracted)
 6. CLI scaffolds must produce WORKING projects (test the generated output)
-7. All packages must build to ESM + CJS (dual format for compatibility)
+7. All packages build to ESM-only via tsc (no CJS — see HARD RULE #7 section above)
 8. VS Code extension must be publishable to VS Code Marketplace
