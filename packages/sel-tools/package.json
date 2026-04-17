@@ -1,19 +1,27 @@
 {
   "name": "@sigops/sel-tools",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "SEL parser, linter, formatter, and LSP for SigOps Expression Language",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diskhacker/sigops-sdk.git",
+    "directory": "packages/sel-tools"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc --outDir dist --declaration",
     "test": "vitest run",
