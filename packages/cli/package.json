@@ -1,13 +1,13 @@
 {
-  "name": "@sigops/dev-cli",
+  "name": "@sigops/cli",
   "version": "1.0.0",
-  "description": "Developer CLI for the SigOps SDK - init, test, validate, publish tools and templates",
+  "description": "CLI for SigOps SDK - init, test, validate, publish tools and templates",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "sigops-dev": "./dist/index.js"
+    "sigops": "./dist/index.js"
   },
   "exports": {
     ".": {
