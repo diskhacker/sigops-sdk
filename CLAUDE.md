@@ -326,6 +326,15 @@ Include: sigops.config.json format, validation pipeline (10 checks), review proc
 
 ---
 
+## Recent Changes
+
+- **CLI entry point wired** — `packages/cli/src/index.ts` is a fully commander-based CLI with `create`, `validate`, `publish`, `login`, `sel`, and `template` commands; `bin` field wires `sigops-sdk` to `./dist/index.js`; devDependencies include `commander`, `chalk`, `inquirer`, `ora`.
+- **6 docs written** — `docs/getting-started.md`, `docs/tool-reference.md`, `docs/template-guide.md`, `docs/sel-reference.md`, `docs/plugin-guide.md`, `docs/publishing.md` created with full content matching actual SDK code.
+- **vscode-ext activate() implemented** — `packages/vscode-ext/src/extension.ts` creates a status bar item showing "SigOps SDK", registers a `sigops-sdk.showVersion` command that shows an info message with the extension version, and registers all SEL language commands.
+- **template-sdk: @sigops/sel-tools dep added** — `packages/template-sdk/package.json` dependencies include `"@sigops/sel-tools": "workspace:*"` so template rendering can validate SEL output.
+
+---
+
 ## HARD RULES
 
 1. NO database, NO server, NO Hono — this is a pure NPM package repo
